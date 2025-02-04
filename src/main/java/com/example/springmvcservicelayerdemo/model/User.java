@@ -1,8 +1,15 @@
 package com.example.springmvcservicelayerdemo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="customers_table")
 public class User {
 
-    private int id;
+    @Id
+    private Integer id;
     private String name;
     private int age;
 

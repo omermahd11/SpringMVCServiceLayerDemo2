@@ -1,6 +1,7 @@
 package com.example.springmvcservicelayerdemo.controller;
 
 import com.example.springmvcservicelayerdemo.model.User;
+import com.example.springmvcservicelayerdemo.service.UserJpaService;
 import com.example.springmvcservicelayerdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,19 +16,23 @@ import java.util.List;
 @Controller
 public class UserController {
     @Autowired
-    UserService userService;
+    UserService userService;  // save data to list
+    @Autowired
+    UserJpaService userJpaService;   // save data to database
 
    @PostMapping("/adduser")
     public String action(Model model , @ModelAttribute User user) {
         System.out.println(user);
-        userService.addUser(user);
+      //  userService.addUser(user);
+        userJpaService.Add(user);
         return "index";
     }
 
     @GetMapping("/displayusers")
     public String action2( Model model ) {
 
-        List<User> users = userService.getUsers();
+      //  List<User> users = userService.getUsers();
+        List<User> users = userJpaService.GetUsers();
         model.addAttribute("users", users);
         return "users";
 
@@ -35,8 +40,9 @@ public class UserController {
     @GetMapping("/deleteuser")
     public  String action( Model model, @RequestParam(required = false) int userId) {
 
-       userService.removeUser(userId);
-       List<User> users = userService.getUsers();
+      // userService.removeUser(userId);
+       userJpaService.Delete(userId);
+       List<User> users = userJpaService.GetUsers();
        model.addAttribute("users", users);
        return "users";
     }
